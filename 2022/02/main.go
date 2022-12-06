@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	f, err := os.Open("simple.txt")
+	f, err := os.Open("input.txt")
 	if err != nil {
 		log.Fatalf("open file error: %v", err)
 		return
@@ -39,10 +39,11 @@ func main() {
 	}
 
 	score := 0
+	lineCount := 0
 
 	for {
 		line, err := rd.ReadString('\n')
-
+		lineCount++
 		splitStr := strings.Split(line, " ")
 
 		opponent := splitStr[0]
@@ -51,45 +52,45 @@ func main() {
 		if opponent == "A" {
 			if player == "X" {
 				score += scores.X + outcomes.draw
-				fmt.Printf("AX %v\n", score)
+				fmt.Printf("%v%v %v %v\n", opponent, player, scores.X + outcomes.draw, score)
 			}
 			if player == "Y" {
-				score += scores.X
-				fmt.Printf("AY %v\n", score)
+				score += scores.Y + outcomes.win
+				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Y + outcomes.win, score)
 			}
 			if player == "Z" {
-				score += scores.X + outcomes.win
-				fmt.Printf("AZ %v\n", score)
+				score += scores.Z
+				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Z, score)
 			}
 		}
 
 		if opponent == "B" {
 			if player == "X" {
-				score += scores.Y + outcomes.win
-				fmt.Printf("BX %v\n", score)
+				score += scores.X
+				fmt.Printf("%v%v %v %v\n", opponent, player, scores.X, score)
 			}
 			if player == "Y" {
 				score += scores.Y + outcomes.draw
-				fmt.Printf("BY %v\n", score)
+				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Y + outcomes.draw, score)
 			}
 			if player == "Z" {
-				score += scores.Y
-				fmt.Printf("BZ %v\n", score)
+				score += scores.Z + outcomes.win
+				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Z + outcomes.win, score)
 			}
 		}
 
 		if opponent == "C" {
 			if player == "X" {
-				score += scores.Z
-				fmt.Printf("CX %v\n", score)
+				score += scores.X + outcomes.win
+				fmt.Printf("%v%v %v %v\n", opponent, player, scores.X + outcomes.win, score)
 			}
 			if player == "Y" {
-				score += scores.Z + outcomes.win
-				fmt.Printf("CY %v\n", score)
+				score += scores.Y
+				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Y, score)
 			}
 			if player == "Z" {
 				score += scores.Z + outcomes.draw
-				fmt.Printf("CZ %v\n", score)
+				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Z + outcomes.draw, score)
 			}
 		}
 
