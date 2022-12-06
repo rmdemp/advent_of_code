@@ -39,11 +39,9 @@ func main() {
 	}
 
 	score := 0
-	lineCount := 0
 
 	for {
 		line, err := rd.ReadString('\n')
-		lineCount++
 		splitStr := strings.Split(line, " ")
 
 		opponent := splitStr[0]
@@ -52,48 +50,39 @@ func main() {
 		if opponent == "A" {
 			if player == "X" {
 				score += scores.X + outcomes.draw
-				fmt.Printf("%v%v %v %v\n", opponent, player, scores.X + outcomes.draw, score)
 			}
 			if player == "Y" {
 				score += scores.Y + outcomes.win
-				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Y + outcomes.win, score)
 			}
 			if player == "Z" {
 				score += scores.Z
-				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Z, score)
 			}
 		}
 
 		if opponent == "B" {
 			if player == "X" {
 				score += scores.X
-				fmt.Printf("%v%v %v %v\n", opponent, player, scores.X, score)
 			}
 			if player == "Y" {
 				score += scores.Y + outcomes.draw
-				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Y + outcomes.draw, score)
 			}
 			if player == "Z" {
 				score += scores.Z + outcomes.win
-				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Z + outcomes.win, score)
 			}
 		}
 
 		if opponent == "C" {
 			if player == "X" {
 				score += scores.X + outcomes.win
-				fmt.Printf("%v%v %v %v\n", opponent, player, scores.X + outcomes.win, score)
 			}
 			if player == "Y" {
 				score += scores.Y
-				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Y, score)
 			}
 			if player == "Z" {
 				score += scores.Z + outcomes.draw
-				fmt.Printf("%v%v %v %v\n", opponent, player, scores.Z + outcomes.draw, score)
 			}
 		}
-
+ 
 		if err == io.EOF {
 			fmt.Printf("final score %v\n", score)
 			return
