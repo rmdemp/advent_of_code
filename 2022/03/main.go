@@ -7,10 +7,11 @@ import (
 	"log"
 	"os"
 	"strings"
+	"unicode"
 )
 
 func main() {
-	f, err := os.Open("simple.txt")
+	f, err := os.Open("input.txt")
 	if err != nil {
 		log.Fatalf("open file error: %v", err)
 	}
@@ -18,7 +19,9 @@ func main() {
 
 	reader := bufio.NewReader(f)
 
-  priorities := make([]string, 0)
+  priorities := ""
+  uniqueString := ""
+  var prioritiesTotal rune
 
 	for {
 		line, err := reader.ReadString('\n')
@@ -26,22 +29,34 @@ func main() {
 			log.Fatalf("%v", err)
 		}
 
-    if err == io.EOF {
-      return
-    }
-
-    trimLine := strings.Trim(line, "\n")
-		firstHalf := line[:len(trimLine) / 2]
-		secondHalf := line[len(trimLine) / 2:]
-    trimSecondHalf := secondHalf[:len(secondHalf) - 1] // why does this happen?
-
-    fmt.Printf("%v\n", firstHalf)
-    for _, b := range strings.Split(firstHalf, "") {
-      fmt.Printf("%v contains %v %v\n", trimSecondHalf, b, strings.Contains(trimSecondHalf, b))
-      if strings.Contains(trimSecondHalf, b) {
-        priorities = append(priorities, b)
+    firstHalf := line[:len(strings.Trim(line, "")) / 2]
+    secondHalf := strings.Trim(line[len(strings.Trim(line, "")) / 2:], "\n")
+    
+    for _, r := range firstHalf {
+      if strings.Contains(secondHalf, string(r)) {
+        priorities += string(r)
       }
     }
-    fmt.Printf("priorities %v\n\n", priorities)    
-	}
+
+    if err == io.EOF {
+      break
+    }
+  }
+
+  for _, r := range priorities {
+    if !strings.Contains(uniqueString, string(r)) {
+      uniqueString += string(r)
+    }
+  }
+
+  for _, r := range uniqueString {
+    if unicode.IsLower(r) {
+      prioritiesTotal += r - 96
+    } else if unicode.IsUpper(r) { 
+      prioritiesTotal += r - 38
+    }
+  }
+
+  fmt.Printf("uniqueString %v\n", uniqueString)
+  fmt.Printf("prioritiesTotal %v\n", prioritiesTotal)
 }
